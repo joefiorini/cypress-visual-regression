@@ -10,6 +10,7 @@ function compareSnapshotCommand(defaultScreenshotOptions) {
       const SNAPSHOT_BASE_DIRECTORY = Cypress.env('SNAPSHOT_BASE_DIRECTORY');
       const SNAPSHOT_DIFF_DIRECTORY = Cypress.env('SNAPSHOT_DIFF_DIRECTORY');
       const ALWAYS_GENERATE_DIFF = Cypress.env('ALWAYS_GENERATE_DIFF');
+      const shouldUpdateSnapshots = Cypress.env('updateSnapshot') != null;
 
       let screenshotOptions = defaultScreenshotOptions;
       let errorThreshold = 0.0;
@@ -24,14 +25,14 @@ function compareSnapshotCommand(defaultScreenshotOptions) {
         screenshotOptions = Object.assign({}, defaultScreenshotOptions, params);
       }
       let title = 'actual';
-      if (Cypress.env('type') === 'base') {
+      if (shouldUpdateSnapshots) {
         title = 'base';
       }
 
       // take snapshot
       const objToOperateOn = subject ? cy.get(subject) : cy;
       const fileName = `${name}-${title}`;
-      if (Cypress.env('type') === 'base') {
+      if (shouldUpdateSnapshots) {
         const identifier = `${fileName}-${new Date().getTime()}`;
         objToOperateOn
           .screenshot(`${identifier}`, screenshotOptions)
@@ -46,7 +47,7 @@ function compareSnapshotCommand(defaultScreenshotOptions) {
       }
 
       // run visual tests
-      if (Cypress.env('type') === 'actual') {
+      if (!shouldUpdateSnapshots) {
         const options = {
           fileName: name,
           specDirectory: Cypress.spec.name,
