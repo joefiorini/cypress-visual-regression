@@ -37,8 +37,10 @@ function setupDiffImageGeneration(args) {
 }
 
 function visualRegressionCopy(args) {
+  console.log('[COPY]');
+  console.dir(args);
   setupSnapshotPaths(args);
-  const baseDir = path.join(SNAPSHOT_BASE_DIRECTORY, args.specName);
+  const baseDir = SNAPSHOT_BASE_DIRECTORY;
   const from = path.join(
     CYPRESS_SCREENSHOT_DIR,
     args.specName,
@@ -53,6 +55,8 @@ function visualRegressionCopy(args) {
 }
 
 async function compareSnapshotsPlugin(args) {
+  console.log('[COMPARE]');
+  console.dir(args);
   setupSnapshotPaths(args);
   setupDiffImageGeneration(args);
 
@@ -61,11 +65,7 @@ async function compareSnapshotsPlugin(args) {
   const options = {
     actualImage: path.join(CYPRESS_SCREENSHOT_DIR, `${fileName}.png`),
     expectedImage: path.join(SNAPSHOT_BASE_DIRECTORY, `${fileName}.png`),
-    diffImage: path.join(
-      SNAPSHOT_DIFF_DIRECTORY,
-      args.specDirectory,
-      `${fileName}-diff.png`
-    ),
+    diffImage: path.join(SNAPSHOT_DIFF_DIRECTORY, `${fileName}-diff.png`),
   };
 
   let mismatchedPixels = 0;
