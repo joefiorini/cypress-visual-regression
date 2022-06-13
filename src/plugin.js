@@ -39,11 +39,7 @@ function setupDiffImageGeneration(args) {
 function visualRegressionCopy(args) {
   setupSnapshotPaths(args);
   const baseDir = path.join(SNAPSHOT_BASE_DIRECTORY, args.specName);
-  const from = path.join(
-    CYPRESS_SCREENSHOT_DIR,
-    args.specName,
-    `${args.from}.png`
-  );
+  const from = path.join(CYPRESS_SCREENSHOT_DIR, `${args.from}.png`);
   const to = path.join(baseDir, `${args.to}.png`);
 
   return createFolder(baseDir, false).then(() => {
