@@ -24,22 +24,15 @@ function compareSnapshotCommand(defaultScreenshotOptions) {
           0.0;
         screenshotOptions = Object.assign({}, defaultScreenshotOptions, params);
       }
-      let title = 'actual';
-      if (shouldUpdateSnapshots) {
-        title = 'base';
-      }
-
+      const fileName = `${Cypress.currentTest.titlePath.join('-')}-${name}`;
       // take snapshot
       const objToOperateOn = subject ? cy.get(subject) : cy;
-      const fileName = `${name}-${title}`;
       if (shouldUpdateSnapshots) {
-        const identifier = `${fileName}-${new Date().getTime()}`;
         objToOperateOn
-          .screenshot(`${identifier}`, screenshotOptions)
+          .screenshot(fileName, screenshotOptions)
           .task('visualRegressionCopy', {
-            specName: Cypress.spec.name,
-            from: `${identifier}`,
-            to: `${fileName}`,
+            from: fileName,
+            to: fileName,
             baseDir: SNAPSHOT_BASE_DIRECTORY,
           });
       } else {

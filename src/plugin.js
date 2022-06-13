@@ -25,7 +25,7 @@ function setupScreenshotPath(config) {
 
 function setupSnapshotPaths(args) {
   SNAPSHOT_BASE_DIRECTORY =
-    args.baseDir || path.join(process.cwd(), 'cypress', 'snapshots', 'base');
+    args.baseDir || path.join(process.cwd(), 'cypress', 'snapshots');
 
   SNAPSHOT_DIFF_DIRECTORY =
     args.diffDir || path.join(process.cwd(), 'cypress', 'snapshots', 'diff');
@@ -39,7 +39,11 @@ function setupDiffImageGeneration(args) {
 function visualRegressionCopy(args) {
   setupSnapshotPaths(args);
   const baseDir = path.join(SNAPSHOT_BASE_DIRECTORY, args.specName);
-  const from = path.join(CYPRESS_SCREENSHOT_DIR, `${args.from}.png`);
+  const from = path.join(
+    CYPRESS_SCREENSHOT_DIR,
+    args.specName,
+    `${args.from}.png`
+  );
   const to = path.join(baseDir, `${args.to}.png`);
 
   return createFolder(baseDir, false).then(() => {
@@ -55,12 +59,8 @@ async function compareSnapshotsPlugin(args) {
   const fileName = sanitize(args.fileName);
 
   const options = {
-    actualImage: path.join(CYPRESS_SCREENSHOT_DIR, `${fileName}-actual.png`),
-    expectedImage: path.join(
-      SNAPSHOT_BASE_DIRECTORY,
-      args.specDirectory,
-      `${fileName}-base.png`
-    ),
+    actualImage: path.join(CYPRESS_SCREENSHOT_DIR, `${fileName}.png`),
+    expectedImage: path.join(SNAPSHOT_BASE_DIRECTORY, `${fileName}.png`),
     diffImage: path.join(
       SNAPSHOT_DIFF_DIRECTORY,
       args.specDirectory,
