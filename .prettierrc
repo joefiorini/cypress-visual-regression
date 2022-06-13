@@ -1,0 +1,3 @@
+singleQuote: true
+trailingCommand: es5
+arrowParens: always
