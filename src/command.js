@@ -31,7 +31,7 @@ function compareSnapshotCommand(defaultScreenshotOptions) {
 
       // take snapshot
       const objToOperateOn = subject ? cy.get(subject) : cy;
-      const fileName = `${name}-${title}`;
+      const fileName = `${Cypress.spec.name}/${name}-${title}`;
       if (shouldUpdateSnapshots) {
         const identifier = `${fileName}-${new Date().getTime()}`;
         objToOperateOn
