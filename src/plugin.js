@@ -63,7 +63,11 @@ async function compareSnapshotsPlugin(args) {
   const fileName = sanitize(args.fileName);
 
   const options = {
-    actualImage: path.join(CYPRESS_SCREENSHOT_DIR, `${fileName}.png`),
+    actualImage: path.join(
+      CYPRESS_SCREENSHOT_DIR,
+      args.specDirectory,
+      `${fileName}.png`
+    ),
     expectedImage: path.join(SNAPSHOT_BASE_DIRECTORY, `${fileName}.png`),
     diffImage: path.join(SNAPSHOT_DIFF_DIRECTORY, `${fileName}-diff.png`),
   };
